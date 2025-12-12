@@ -1,0 +1,37 @@
+backend:
+  type: es
+  es:
+    host: elasticsearch-master.logging.svc.cluster.local
+    port: 9200
+
+    index: k8s-logs
+    logstash_prefix: k8s
+    logstash_format: true
+
+    http_user: "elastic"
+    http_passwd: "<ELASTIC_PASSWORD>"
+
+    tls: "on"
+    tls.verify: "off"
+
+serviceAccount:
+  create: true
+
+inputs:
+  tail:
+    enabled: true
+    path: /var/log/containers/*.log
+    parser: docker
+    tag: kube.*
+    refresh_interval: 5
+    mem_buf_limit: 5MB
+    skip_long_lines: On
+
+filters:
+  kubernetes:
+    enabled: true
+    match: kube.*
+    kube_tag_prefix: kube.var.log.containers.
+    merge_log: true
+    keep_log: true
+

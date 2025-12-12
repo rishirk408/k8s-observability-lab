@@ -1,0 +1,10 @@
+grafana:
+  adminUser: admin
+  adminPassword: admin123  # change later
+  service:
+    type: ClusterIP
+
+prometheus:
+  prometheusSpec:
+    serviceMonitorSelectorNilUsesHelmValues: false
+

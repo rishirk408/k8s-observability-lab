@@ -1,0 +1,21 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: demo-app-rules
+  namespace: monitoring
+  labels:
+    release: monitoring
+spec:
+  groups:
+    - name: demo-app-alerts
+      rules:
+        - alert: DemoAppHighErrorRate
+          expr: |
+            sum(rate(demo_app_requests_total{endpoint="/error"}[5m])) > 0.1
+          for: 5m
+          labels:
+            severity: warning
+          annotations:
+            summary: "High error rate for demo app"
+            description: "Demo app /error endpoint has high error rate over the last 5 minutes."
+

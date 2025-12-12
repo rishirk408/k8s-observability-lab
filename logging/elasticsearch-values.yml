@@ -1,0 +1,17 @@
+replicas: 1
+
+esJavaOpts: "-Xms512m -Xmx512m"
+
+resources:
+  requests:
+    cpu: "200m"
+    memory: "1Gi"
+  limits:
+    cpu: "1"
+    memory: "2Gi"
+
+volumeClaimTemplate:
+  resources:
+    requests:
+      storage: 5Gi
+
